@@ -16,7 +16,7 @@ password:raspberry
 
 https://www.bilibili.com/video/BV16U4y1879Q?p=5
 
-#### 换源
+#### 换源  & 公钥问题
 
 注意更改`/etc/apt/sources.list.d/raspi.list`
 
