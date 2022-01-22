@@ -2,7 +2,7 @@
 
 参考视频：https://www.youtube.com/watch?v=zYvkxup76-s
 
-镜像：https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2020-08-24/
+镜像：https://downloads.raspberrypi.org/raspios_arm64/images/
 
 #### putty
 
