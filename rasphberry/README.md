@@ -1,4 +1,4 @@
-#### 树莓派启动视频
+#### 1.树莓派启动视频
 
 参考视频：https://www.youtube.com/watch?v=zYvkxup76-s
 
@@ -12,11 +12,11 @@ login as:pi
 password:raspberry
 ```
 
-#### 连接本地网络
+#### 2.连接本地网络
 
 https://www.bilibili.com/video/BV16U4y1879Q?p=5
 
-#### 换源  & 公钥问题
+#### 3.换源  & 公钥问题
 
 注意更改`/etc/apt/sources.list.d/raspi.list`
 
@@ -49,4 +49,40 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 82B129927FA3303E
 ```
 
 之后就可以使用`sudo apt-get update` 和 `sudo apt-get upgrade`
+
+#### 4.mysql
+
+```
+sudo apt install mariadb-server -y
+sudo mysql_secure_installation 
+password : lky+学号
+```
+
+将`/etc/mysql/mariadb.conf.d/50-server.cnf`里的` bind-address=0.0.0.0`注释掉
+
+运行命令`sudo service mysql restar` [参考连接](https://www.cnblogs.com/anyiz/p/10657232.html)
+
+**分配权限**进入mysql
+
+参考链接
+https://blog.csdn.net/idomyway/article/details/81210420
+https://blog.csdn.net/u012294515/article/details/90078153
+https://blog.csdn.net/u012294515/article/details/90078153
+
+```
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION; 
+// %:表示从任何主机连接到mysql服务器
+// %:password是设置的密码
+mysql> FLUSH PRIVILEGES;
+```
+
+**防火墙开启关闭、开放端口号**
+
+[参考连接](https://blog.csdn.net/weixin_43484014/article/details/109329252)
+
+```
+sudo apt-get install ufw
+sudo ufw disable
+sudo ufw allow 3306
+```
 
