@@ -86,3 +86,14 @@ sudo ufw disable
 sudo ufw allow 3306
 ```
 
+#### 无线通讯
+
+https://circuitdigest.com/microcontroller-projects/wireless-rf-communication-between-arduino-and-raspberry-pi-using-nrf24l01
+
+https://stackoverflow.com/questions/67473554/radio-transmition-between-arduino-uno-and-raspberry-pi-4-not-working-using-nrf2
+
+https://lastminuteengineers.com/nrf24l01-arduino-wireless-communication/
+
+python page
+
+https://github.com/BLavery/lib_nrf24
