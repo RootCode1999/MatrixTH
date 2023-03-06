@@ -26,6 +26,7 @@ https://mirrors.tuna.tsinghua.edu.cn/help/raspbian/
 
 使用`sudo apt-get update`可能会出现报错，可以用下面命令修改
 报错：
+
 ```
 Err:7 http://mirrordirector.raspbian.org/raspbian jessie InRelease
   The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 9165938D90FDDD2E
@@ -50,12 +51,11 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 82B129927FA3303E
 
 之后就可以使用`sudo apt-get update` 和 `sudo apt-get upgrade`
 
-#### 4.mysql
+#### 4.MariaDB
 
 ```
 sudo apt install mariadb-server -y
 sudo mysql_secure_installation 
-password : lky+学号
 ```
 
 将`/etc/mysql/mariadb.conf.d/50-server.cnf`里的` bind-address=0.0.0.0`注释掉
@@ -64,27 +64,38 @@ password : lky+学号
 
 **分配权限**进入mysql
 
-参考链接
-https://blog.csdn.net/idomyway/article/details/81210420
-https://blog.csdn.net/u012294515/article/details/90078153
-https://blog.csdn.net/u012294515/article/details/90078153
-
-```
-mysql> GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION; 
-// %:表示从任何主机连接到mysql服务器
-// %:password是设置的密码
+2.开启mysql远程访问
+(1)修改/etc/mysql/my.cnf文件
+sudo nano /etc/mysql/my.cnf
+找到下面这行，并用#注释掉，
+bind-address        = 127.0.0.1
+或者修改为bind-address        = 0.0.0.0
+(2)登录mysql，输入下面命令
+mysql> grant all privileges on *.* to username@"%" identified by "password"; （username一般是root，password是新的密码）
 mysql> FLUSH PRIVILEGES;
-```
 
-**防火墙开启关闭、开放端口号**
-
-[参考连接](https://blog.csdn.net/weixin_43484014/article/details/109329252)
-
-```
+3.开启3306端口远程访问（如果不用防火墙，这一步可以忽略）
+这里的iptable命令和centos中命令不一样，所以参考了一下文档，使用ufw软件来开启3306端口
+(1)安装ufw
 sudo apt-get install ufw
-sudo ufw disable
-sudo ufw allow 3306
-```
+(2)启用ufw
+sudo ufw enable
+sudo ufw default deny
+(3)开启3306、22（ssh端口）端口
+sudo ufw allow 3306 
+sudo ufw allow 22 
+sudo ufw allow 80 
+sudo ufw allow 3389
+sudo ufw allow 3350
+sudo ufw allow 5910
+注意：请将常用的端口都添加到防火墙规则中，如果不开启22端口，下次启动树莓派时，系统的22端口会禁用，不能使用ssh登录树莓派
+
+4.重启mysql服务
+
+sudo service mysql restart
+————————————————
+版权声明：本文为CSDN博主「清山博客」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/a497785609/article/details/77942890
 
 #### 无线通讯
 
@@ -97,3 +108,14 @@ https://lastminuteengineers.com/nrf24l01-arduino-wireless-communication/
 python page
 
 https://github.com/BLavery/lib_nrf24
+
+https://github.com/nRF24/RF24
+
+[注意要启动SPI接口](https://www.raspberrypi-spy.co.uk/2014/08/enabling-the-spi-interface-on-the-raspberry-pi/)
+
+### 重启网络
+
+```
+sudo /etc/init.d/networking restart
+```
+
